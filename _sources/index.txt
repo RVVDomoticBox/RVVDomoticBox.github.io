@@ -15,8 +15,7 @@ are the following :
 * **simplicity**
    The choice of Python as the main programming language of the box and the relative simplicity of the software architecture should allow anyone develop plugins.
 
-Table of contents
-=================
+Table of contents :
 
 .. toctree::
 	:maxdepth: 3
@@ -29,8 +28,7 @@ Table of contents
 	proprietary_protocols
 	appendix
 
-Indices and tables
-==================
+Indices and tables :
 
 * :ref:`genindex`
 * :ref:`modindex`

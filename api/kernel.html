@@ -56,48 +56,86 @@
 <dl class="class">
 <dt id="kernel.Kernel">
 <em class="property">class </em><tt class="descclassname">kernel.</tt><tt class="descname">Kernel</tt><a class="headerlink" href="#kernel.Kernel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gathers every plugin installed. 
-It centralizes every driver, modem, automation and device 
-instantiated in the box to allow each other to communicate.
-A plugin is instantiated once when it is loaded, the Kernel 
-keeps a reference to it to avoid to load it again.
-Drivers, modems and interfaces are also instantiated 
-only once when the plugin it comes from is loaded.
-Devices are instantiated by the drivers and added to the
-Kernel&#8217;s devices list to make them accessible to every 
-other module.</p>
+<dd><p>The Kernel class is the core of the system.</p>
+<p>It is instantiated once at the beginning of the program and then 
+gathers every handleable object in different lists, in order to
+make them accessible by other parts of the program (such as the
+User Interface):</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>plugins</strong> &#8211; (<tt class="xref py py-class docutils literal"><span class="pre">python</span> <span class="pre">modules</span> <span class="pre">list</span></tt>) The list of plugins that have been loaded</li>
+<li><strong>protocols</strong> &#8211; (<tt class="xref py py-class docutils literal"><span class="pre">models.Protocol</span> <span class="pre">list</span></tt>) the list of protocols currently handled by the kernel</li>
+<li><strong>drivers</strong> &#8211; (<tt class="xref py py-class docutils literal"><span class="pre">models.Driver</span> <span class="pre">list</span></tt>) the list of hardware parts that may work with the system</li>
+<li><strong>interfaces</strong> &#8211; (<tt class="xref py py-class docutils literal"><span class="pre">models.Interface</span> <span class="pre">list</span></tt>) the list of available interfaces (http...)</li>
+<li><strong>devices</strong> &#8211; (<tt class="xref py py-class docutils literal"><span class="pre">models.Device</span> <span class="pre">list</span></tt>) the list of devices currently connected to the system</li>
+<li><strong>actions</strong> &#8211; (<tt class="xref py py-class docutils literal"><span class="pre">models.Action</span> <span class="pre">list</span></tt>) the list of actions made available</li>
+<li><strong>infos</strong> &#8211; (<tt class="xref py py-class docutils literal"><span class="pre">models.Information</span> <span class="pre">list</span></tt>) the list of informations available</li>
+<li><strong>block_models</strong> &#8211; (<tt class="xref py py-class docutils literal"><span class="pre">models.BlockModel</span> <span class="pre">list</span></tt>) the list of block models that may be used in the creation of a new scenario</li>
+<li><strong>scenarios</strong> &#8211; (<tt class="xref py py-class docutils literal"><span class="pre">scenario.Scenario</span> <span class="pre">list</span></tt>) the scenarios creates by the user (some may not be active)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="kernel.Kernel.add_to_kernel">
 <tt class="descname">add_to_kernel</tt><big>(</big><em>element</em><big>)</big><a class="headerlink" href="#kernel.Kernel.add_to_kernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds the element given as argument to the corresponding objects
-list of the kernel. It accepts objects whose type is any of the 
-followings:
-* a python module
-* Modem
-* Interface
-* Device
-* Action
-* Info
-* BlockModel
-* Scenario
-It auto-detects the type of the argument given and automatically 
-appends it to the relevant list.</p>
+list of the kernel.</p>
+<p>It auto-detects the type of the argument given and automatically 
+appends to one of the lists of the kernel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>element</strong> (<a class="reference internal" href="models.html#models.Information" title="models.Information"><tt class="xref py py-class docutils literal"><span class="pre">models.Information</span></tt></a> or <a class="reference internal" href="models.html#models.Action" title="models.Action"><tt class="xref py py-class docutils literal"><span class="pre">models.Action</span></tt></a> or <a class="reference internal" href="models.html#models.Device" title="models.Device"><tt class="xref py py-class docutils literal"><span class="pre">models.Device</span></tt></a> or <a class="reference internal" href="models.html#models.Interface" title="models.Interface"><tt class="xref py py-class docutils literal"><span class="pre">models.Interface</span></tt></a> or <a class="reference internal" href="models.html#models.Protocol" title="models.Protocol"><tt class="xref py py-class docutils literal"><span class="pre">models.Protocol</span></tt></a> or <a class="reference internal" href="models.html#models.Driver" title="models.Driver"><tt class="xref py py-class docutils literal"><span class="pre">models.Driver</span></tt></a> or <a class="reference internal" href="scenario.html#scenario.Scenario" title="scenario.Scenario"><tt class="xref py py-class docutils literal"><span class="pre">scenario.Scenario</span></tt></a> or <tt class="xref py py-class docutils literal"><span class="pre">models.BlockModel</span></tt>) &#8211; The element to add to the kernel</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Raises TypeError:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if the element given as argument is of none of the types given above.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="kernel.Kernel.get_by_id">
 <tt class="descname">get_by_id</tt><big>(</big><em>searched_id</em><big>)</big><a class="headerlink" href="#kernel.Kernel.get_by_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>If the element whose ID has been given is in one of the
-object lists of the kernel, it returns it. If this ID is not 
-found, it returns False.</p>
+<dd><p>Get an element previously added to the kernel by providing
+its id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>searched_id</strong> (<em>int</em>) &#8211; The ID of the element which is searched.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the searched object or False if it has not been found</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">int</span></tt> or <tt class="xref py py-class docutils literal"><span class="pre">bool</span></tt></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="kernel.Kernel.get_new_id">
 <tt class="descname">get_new_id</tt><big>(</big><big>)</big><a class="headerlink" href="#kernel.Kernel.get_new_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a unique identifier of type int which can later be used
-to reference an object. It is particularly useful when it comes
-to user interfaces.</p>
+<dd><p><em>(Internal)</em> Get an identifier that we know being unique. It is used 
+by the <tt class="xref py py-func docutils literal"><span class="pre">add_to_kernel()</span></tt> so that any object added to the kernel gets
+its own identifier.</p>
+<p>It is particularly useful when it comes to user interfaces.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A unique identifier</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">int</span></tt></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -110,10 +148,20 @@ If a plugin has already been loaded, it is ignored.</p>
 <dl class="method">
 <dt id="kernel.Kernel.remove_by_id">
 <tt class="descname">remove_by_id</tt><big>(</big><em>searched_id</em><big>)</big><a class="headerlink" href="#kernel.Kernel.remove_by_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>If the element whose ID has been given is in one of the
-object lists of the kernel, it removes it from it and 
-returns the removed element. If this ID is not found, 
-it returns False.</p>
+<dd><p>Remove the element whose ID has been given as argument
+from the kernel and returns it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>searched_id</strong> (<em>int</em>) &#8211; The ID of the element to remove</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The removed element or false</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="models.html#models.Information" title="models.Information"><tt class="xref py py-class docutils literal"><span class="pre">models.Information</span></tt></a> or <a class="reference internal" href="models.html#models.Action" title="models.Action"><tt class="xref py py-class docutils literal"><span class="pre">models.Action</span></tt></a> or <a class="reference internal" href="models.html#models.Device" title="models.Device"><tt class="xref py py-class docutils literal"><span class="pre">models.Device</span></tt></a> or <a class="reference internal" href="models.html#models.Interface" title="models.Interface"><tt class="xref py py-class docutils literal"><span class="pre">models.Interface</span></tt></a> or <a class="reference internal" href="models.html#models.Protocol" title="models.Protocol"><tt class="xref py py-class docutils literal"><span class="pre">models.Protocol</span></tt></a> or <a class="reference internal" href="models.html#models.Driver" title="models.Driver"><tt class="xref py py-class docutils literal"><span class="pre">models.Driver</span></tt></a> or <a class="reference internal" href="scenario.html#scenario.Scenario" title="scenario.Scenario"><tt class="xref py py-class docutils literal"><span class="pre">scenario.Scenario</span></tt></a> or <tt class="xref py py-class docutils literal"><span class="pre">models.BlockModel</span></tt> or <tt class="xref py py-class docutils literal"><span class="pre">boolean</span></tt></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

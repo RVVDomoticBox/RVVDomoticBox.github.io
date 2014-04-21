@@ -4,6 +4,32 @@ The Project
 Overview
 --------
 
+This project aims at designing a home automation control center. The main characteristics we identified as being essential are the following:
+
+* adaptativeness as regards to home automation protocols
+	
+	Many protocols, open-source or proprietary, are today used in the field of home automation. To be competitive, a home automation control center must therefore ensure compatibility with all these protocols.
+	
+	Although, it doesn't seem nor reasonable nor interesting to have an exhaustive compatibility list from the first version of the system onwards. 
+	
+	That is why we chose to use a plugin system in which users (that is you) can improve the compatibility of their system by downloading and installing new plugins. These plugins extend the compatibility of the box to other protocols or to other hardware parts.
+	
+	With this system, any interested and motivated user (like you) can just develop new plugins and share them with the community: the only constraint is to respect the python class interfaces. 
+
+* remote access to the control center
+
+	Such a system must imperatively be accessible from outside the house. At work or on vacation, the user must be able to keep an eye on the state of his house, but also to modify its working.
+	
+	To make all that possible, the system must have an outer interface that other applications (a web server, an Android or iOS app...) can use. It can be seen as an API. 
+
+* very easy to use scenarios creation system
+
+	Once you have connected devices from various protocols to the box, you may want to do a little more than just watching them. 
+	
+	The idea is to gather the info coming from them and the actions made available by them in order to create custom automatic behaviours from the system, that we call scenarios.
+	
+	Scenarios consist of infos, actions and other blocks which allow to easily program new behaviours. The simplest scenario would be that a light switches on when a button is pressed.
+	
 Features
 --------
 

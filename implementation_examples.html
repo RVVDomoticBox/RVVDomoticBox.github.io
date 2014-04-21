@@ -253,19 +253,42 @@ protocol can handle the decoding.</p>
 <dl class="method">
 <dt id="drivers.arduino_radio.ArduinoRadio.send_sequence">
 <tt class="descname">send_sequence</tt><big>(</big><em>sequence</em><big>)</big><a class="headerlink" href="#drivers.arduino_radio.ArduinoRadio.send_sequence" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends the radio sequence given as an argument.
-The sequence must be the following format :</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>sequence = [(int) number_of_repetitions,</dt>
-<dd>(int) base_radio_pulse_length_in_microseconds,
-(binary_string) symbol_1,
-(binary_string) symbol_2,
-...
-(binary_string) symbol_n,
-(symbols_list) symbol_coded_message]</dd>
-</dl>
-</div></blockquote>
+<dd><p>Sends the radio sequence given as an argument.</p>
+<p>The <em>sequence</em> dictionary must have the following format :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="73%" />
+<col width="27%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>number_of_repetitions</td>
+<td>int</td>
+</tr>
+<tr class="row-odd"><td>base_radio_pulse_length_in_microseconds</td>
+<td>int</td>
+</tr>
+<tr class="row-even"><td>symbol_1</td>
+<td>binary_string</td>
+</tr>
+<tr class="row-odd"><td>symbol_2</td>
+<td>binary_string</td>
+</tr>
+<tr class="row-even"><td>...</td>
+<td>binary_string</td>
+</tr>
+<tr class="row-odd"><td>symbol_n</td>
+<td>binary_string</td>
+</tr>
+<tr class="row-even"><td>symbol_coded_message</td>
+<td>symbols_list</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">

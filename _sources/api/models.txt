@@ -53,3 +53,9 @@ Implementation examples
 +++++++++++++++++++++++
 
 An example of implementation can be found here: :class:drivers.arduino_radio.ArduinoRadio.
+
+Custom exceptions
+-----------------
+
+.. autoclass:: models.AttributeNotSet
+	:members:

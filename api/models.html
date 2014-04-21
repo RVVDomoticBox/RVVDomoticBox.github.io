@@ -119,22 +119,116 @@ have been developed.</p>
 <dt id="models.Protocol">
 <em class="property">class </em><tt class="descclassname">models.</tt><tt class="descname">Protocol</tt><a class="headerlink" href="#models.Protocol" title="Permalink to this definition">¶</a></dt>
 <dd><p>In the model used to design the box, a class deriving from 
-Protocol implements all the functions that are necessary in
-order to make the box compatible with a new home automation
+<a class="reference internal" href="#models.Protocol" title="models.Protocol"><tt class="xref py py-class docutils literal"><span class="pre">models.Protocol</span></tt></a> implements all the functions that are 
+necessary to make the box compatible with a new home automation
 protocol. For instance, it is the protocol class of a given home
 automation protocol     that should implement the methods necessary 
 to the process of adding of a new device to the box.</p>
-<p>The class :class:Protocol defines the minimal public 
+<p>The class <a class="reference internal" href="#models.Protocol" title="models.Protocol"><tt class="xref py py-class docutils literal"><span class="pre">models.Protocol</span></tt></a> defines the minimal public 
 interface that any protocol class should implement, in order 
-to allow other entities to use it.  
-It should <strong>not</strong> be directly instantiated.
-Any protocol plugin should derive from it. To see what the actual
+to allow other entities to use it.</p>
+<p>It should <strong>not</strong> be directly instantiated.</p>
+<p>Any protocol plugin should derive from it. To see what the actual
 implementation of a protocol looks like, you may for instance refer
-to the classes :class:Nexa and :class:Oregon.</p>
+to the classes <a class="reference internal" href="../implementation_examples.html#protocols.nexa.Nexa" title="protocols.nexa.Nexa"><tt class="xref py py-class docutils literal"><span class="pre">protocols.nexa.Nexa</span></tt></a> and 
+<a class="reference internal" href="../implementation_examples.html#protocols.oregon.Oregon" title="protocols.oregon.Oregon"><tt class="xref py py-class docutils literal"><span class="pre">protocols.oregon.Oregon</span></tt></a>.</p>
+<dl class="method">
+<dt id="models.Protocol.get_handled_devices">
+<tt class="descname">get_handled_devices</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Protocol.get_handled_devices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Presents the different types of devices handled by this protocol.</p>
+<p>It does not mean that the user can instantiate them himself: some may 
+not need interventiion of the user on the software part to be added
+to the system. Still, this function lets the user know what kinds of
+devices this protocol added support for.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of python dictionaries describing every type of device handled by this protocol</td>
+</tr>
+</tbody>
+</table>
+<p>The format of each python dictionary returned is the following:</p>
+<ul class="simple">
+<li>name</li>
+<li>description</li>
+<li>user_instantiable</li>
+<li>(device_code)</li>
+<li>(settings)</li>
+</ul>
+<p>The <cite>user_instantiable</cite> parameter is a <tt class="xref py py-class docutils literal"><span class="pre">boolean</span></tt>. It specified whether
+or not the user can instantiate himself the device. For instance, if we take 
+into consideration the <a class="reference internal" href="../implementation_examples.html#protocols.nexa.Nexa" title="protocols.nexa.Nexa"><tt class="xref py py-class docutils literal"><span class="pre">protocols.nexa.Nexa</span></tt></a> protocol, the NexaRemote 
+cannot be instantied by the user; they are automatically detected by the system
+when the user presses one of the button of the actual remote. On the other side, 
+a NexaDevice can be instantiated by the user himself and he will then sync/pair 
+it to an actual Nexa actuator.</p>
+<p>The two last keys of the dictionary only exist if the device can be instantiated 
+by the user, that is when the user_instantiable value is <tt class="xref py py-const docutils literal"><span class="pre">True</span></tt>.</p>
+<ul class="simple">
+<li><a href="#id2"><span class="problematic" id="id3">:param:`device_code`</span></a> is an integer which characterizes a type of device.</li>
+</ul>
+<p>It must be given as first argument at the call of the  
+<tt class="xref py py-func docutils literal"><span class="pre">models.Protocol.add_device()</span></tt> function. This function creates a new 
+device whose <a href="#id4"><span class="problematic" id="id5">:param:`device_code`</span></a> is the one given using the initial settings
+given as argument.
+* <a href="#id6"><span class="problematic" id="id7">:param:`settings`</span></a></p>
 </dd></dl>
 
-<div class="section" id="id2">
-<h3>Implementation examples<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="models.Protocol.get_settings">
+<tt class="descname">get_settings</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Protocol.get_settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Presents the available settings for this protocol and their
+respectives types. For instance, the modem used to get radio messages
+has to be manually set by the user when he initializes the protocol 
+for the first time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a dictionary describing the available settings and their type</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="models.Protocol.set">
+<tt class="descname">set</tt><big>(</big><em>settings</em><big>)</big><a class="headerlink" href="#models.Protocol.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the settings given as argument to the protocol.</p>
+<p>The <cite>settings</cite> given as argument at function call must be a python
+dictionary following the format described in the python dict 
+returned by the <a class="reference internal" href="#models.Protocol.get_settings" title="models.Protocol.get_settings"><tt class="xref py py-func docutils literal"><span class="pre">models.Protocol.get_settings()</span></tt></a> function.</p>
+<p>If the <cite>settings</cite> given are not valid, they are ignored and 
+the function returns a dictionary containing the faulty keys.
+For instance, settings may not be valid if you try giving a 
+dictionary having a key which was not specified in the result of
+<a class="reference internal" href="#models.Protocol.get_settings" title="models.Protocol.get_settings"><tt class="xref py py-func docutils literal"><span class="pre">models.Protocol.get_settings()</span></tt></a> or if the value of a setting
+does not tally with the type requested in <a class="reference internal" href="#models.Protocol.get_settings" title="models.Protocol.get_settings"><tt class="xref py py-func docutils literal"><span class="pre">models.Protocol.get_settings()</span></tt></a>.</p>
+<p>The <cite>settings</cite> dictionary given as argument may not contain every key
+specified in the format dictionary. In this case, all the specified 
+settings will me modified (on the condition they are valid) and the 
+others will be left unchanged.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>settings</strong> (<tt class="xref py py-class docutils literal"><span class="pre">python</span> <span class="pre">dict</span></tt>) &#8211; The python dictionary containing the settings to apply.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the settings were correctly applied. A python dictionary containing the faulty settings otherwise.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">boolean</span></tt> or <tt class="xref py py-class docutils literal"><span class="pre">python</span> <span class="pre">dict</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="id8">
+<h3>Implementation examples<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>Example of implementation can be found here: <a class="reference internal" href="../implementation_examples.html#protocols.nexa.Nexa" title="protocols.nexa.Nexa"><tt class="xref py py-class docutils literal"><span class="pre">protocols.nexa.Nexa</span></tt></a> or <a class="reference internal" href="../implementation_examples.html#protocols.oregon.Oregon" title="protocols.oregon.Oregon"><tt class="xref py py-class docutils literal"><span class="pre">protocols.oregon.Oregon</span></tt></a>.</p>
 </div>
 </div>
@@ -144,35 +238,49 @@ to the classes :class:Nexa and :class:Oregon.</p>
 <dt id="models.Driver">
 <em class="property">class </em><tt class="descclassname">models.</tt><tt class="descname">Driver</tt><a class="headerlink" href="#models.Driver" title="Permalink to this definition">¶</a></dt>
 <dd><p>In the model used to design the box, a class deriving from 
-Driver implements the way the box communicates with an external
-hardware part. Hardware parts may for instance be radio modems, 
-as it is the case with the :class:ArduinoRadio driver.
-In the case of the hardware being a modem, this class has then
+<a class="reference internal" href="#models.Driver" title="models.Driver"><tt class="xref py py-class docutils literal"><span class="pre">models.Driver</span></tt></a> implements the way the box communicates 
+with an external hardware part. Hardware parts may for instance 
+be radio modems, as it is the case with the 
+<a class="reference internal" href="../implementation_examples.html#drivers.arduino_radio.ArduinoRadio" title="drivers.arduino_radio.ArduinoRadio"><tt class="xref py py-class docutils literal"><span class="pre">drivers.arduino_radio.ArduinoRadio</span></tt></a> driver.</p>
+<p>In the case of the hardware being a modem, this class has then
 two main features to implement: the process of receiving a 
 message and the process of sending one.
 In the first case, the driver must implement the way it 
 communicates with hardware parts. For the example of the
-:class:ArduinoRadio, the mini communication protocol used is 
-described in the :doc:&#8217;documentation of the Arduino C program &lt;arduino_radio&gt;&#8217;
-Once the message has been recovered from the hardware part,
+<a class="reference internal" href="../implementation_examples.html#drivers.arduino_radio.ArduinoRadio" title="drivers.arduino_radio.ArduinoRadio"><tt class="xref py py-class docutils literal"><span class="pre">drivers.arduino_radio.ArduinoRadio</span></tt></a>, the mini 
+communication protocol used is described in the <tt class="xref doc docutils literal"><span class="pre">arduino</span></tt> section</p>
+<p>Then, once the message has been recovered from the hardware part,
 it must be transmitted to the protocols that use this 
-hardware as a communication medium. This is implemented
+hardware as a communication medium in order to get the
+actual content of the message. This is implemented
 through a &#8216;subscription&#8217; process: protocols subscribe to 
 the driver they want to get their messages from when
 they are initialized.</p>
-<p>The class :class:Driver defines the minimal public 
+<p>The class <a class="reference internal" href="#models.Driver" title="models.Driver"><tt class="xref py py-class docutils literal"><span class="pre">models.Driver</span></tt></a> defines the minimal public 
 interface that any driver class should implement, in order 
-to allow other entities to use it.  
-It should <strong>not</strong> be directly instantiated.
-Any driver plugin should derive from it. To see what the actual
+to allow other entities to use it.</p>
+<p>It should <strong>not</strong> be directly instantiated.</p>
+<p>Any driver plugin should derive from it. To see what the actual
 implementation of a drivers looks like, you may for instance refer
-to the class :class:ArduinoRadio.</p>
+to the class <a class="reference internal" href="../implementation_examples.html#drivers.arduino_radio.ArduinoRadio" title="drivers.arduino_radio.ArduinoRadio"><tt class="xref py py-class docutils literal"><span class="pre">drivers.arduino_radio.ArduinoRadio</span></tt></a>.</p>
 </dd></dl>
 
-<div class="section" id="id3">
-<h3>Implementation examples<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Implementation examples<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>An example of implementation can be found here: :class:drivers.arduino_radio.ArduinoRadio.</p>
 </div>
+</div>
+<div class="section" id="custom-exceptions">
+<h2>Custom exceptions<a class="headerlink" href="#custom-exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="models.AttributeNotSet">
+<em class="property">class </em><tt class="descclassname">models.</tt><tt class="descname">AttributeNotSet</tt><a class="headerlink" href="#models.AttributeNotSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when an object tries to use an object whose
+an attribute essential to its working has not yet been 
+set. E.g. when you try sending a message with a modem
+whose COM port has not been set.</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -196,13 +304,14 @@ to the class :class:ArduinoRadio.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#protocol">Protocol</a><ul>
-<li><a class="reference internal" href="#id2">Implementation examples</a></li>
+<li><a class="reference internal" href="#id8">Implementation examples</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#driver">Driver</a><ul>
-<li><a class="reference internal" href="#id3">Implementation examples</a></li>
+<li><a class="reference internal" href="#id9">Implementation examples</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#custom-exceptions">Custom exceptions</a></li>
 </ul>
 </li>
 </ul>
